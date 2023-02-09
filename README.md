@@ -9,7 +9,7 @@ Asegúrese de tener la configuración del entorno correctamente. Necesitará PHP
 5. Establezca la clave de cifrado ejecutando `php artisan key:generate --ansi
 i`
 6. Ejecute las migraciones `php artisan migrate --seed`
-7. Inicie el servidor local ejecutando `php artesanal serve`
+7. Inicie el servidor local ejecutando `php artisan serve`
 8. Abra una nueva terminal y navegue a la carpeta `react`
 9. Copie `react/.env.example` en `.env` y ajuste el parámetro `VITE_API_BASE_URL`
 9. Ejecute `npm install`
