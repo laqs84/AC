@@ -5,7 +5,7 @@ Asegúrese de tener la configuración del entorno correctamente. Necesitará PHP
 1. Descarga el proyecto (o clona usando GIT)
 2. Copie `.env.example` en `.env` y configure las credenciales de la base de datos
 3. Navegue al directorio raíz del proyecto usando la terminal
-4. Ejecute `instalación del compositor`
+4. Ejecute `composer install`
 5. Establezca la clave de cifrado ejecutando `php artisan key:generate --ansi
 i`
 6. Ejecute las migraciones `php artisan migrate --seed`
