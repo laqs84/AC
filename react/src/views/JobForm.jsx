@@ -118,7 +118,7 @@ function JobForm() {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formCanton">
-            <Form.Label>Distrito</Form.Label>
+            <Form.Label>District</Form.Label>
             <Form.Control as="select" disabled={distritosDisabled}>
               <option>Open this select menu</option>
               {distritos.map((option) => {
