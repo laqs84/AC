@@ -424,7 +424,17 @@ function JobForm() {
 
             <Form.Group className="mb-3" controlId="formPosition">
               <Form.Label>Position</Form.Label>
-              <Form.Control type="text" placeholder="What position are you applying for?" />
+              <Form.Control as="select">
+                <option>Select an option</option>
+            <option value="Customer Service">Customer Service</option>
+            <option value="Tech Support">Tech Support</option>
+            <option value="Sales">Sales</option>
+            <option value="QA">QA</option>
+            <option value="Virtual Assitant">Virtual Assitant</option>
+            <option value="Back Office">Back Office</option>
+            <option value="Any">Any</option>
+            <option value="None">None</option>
+            </Form.Control>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formRelExp">
