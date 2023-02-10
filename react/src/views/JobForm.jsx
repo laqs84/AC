@@ -20,6 +20,8 @@ function JobForm() {
   const [audio, setAudio] = useState()
   const [validated, setValidated] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
+  const [email, setEmail] = useState('');
+  const [errorEmail, setErrorEmail] = useState(null);
 
   const [item, setItem] = useState({ oralLevel: "", another: "another" });
 
@@ -33,6 +35,20 @@ function JobForm() {
       ...prevState,
       oralLevel: e.target.value
     }));
+  };
+
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+  const handleChangeEmail = event => {
+    if (!isValidEmail(event.target.value)) {
+      setErrorEmail('Email is invalid');
+    } else {
+      setErrorEmail(null);
+    }
+
+    setEmail(event.target.value);
   };
 
   const recorderControls = useAudioRecorder()
@@ -60,6 +76,8 @@ function JobForm() {
   };
 
   const getCantones = (provincia) => {
+    setCantonesDisabled(true)
+    setDistritoDisabled(true)
     axiosClient.get(`/cantones/${provincia}`)
       .then(({ data }) => {
         setLoading(false)
@@ -72,6 +90,7 @@ function JobForm() {
   }
 
   const getDistrito = (canton) => {
+    setDistritoDisabled(true)
     axiosClient.get(`/distritos/${canton}`)
       .then(({ data }) => {
         setLoading(false)
@@ -151,7 +170,8 @@ function JobForm() {
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Control value={email} onChange={handleChangeEmail} type="email" placeholder="Enter email" />
+              {errorEmail && <h2 style={{color: 'red'}}>{errorEmail}</h2>}
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
               </Form.Text>
@@ -439,7 +459,41 @@ function JobForm() {
 
             <Form.Group className="mb-3" controlId="formRelExp">
               <Form.Label>Related Experience</Form.Label>
-              <Form.Control type="text" placeholder="What experience do you have related to the position?" />
+              <Form.Check
+                value="None"
+                type="radio"
+                aria-label="radio Related Experience 1"
+                label=" None"
+                onChange={handleChange}
+                className="checkJobForm"
+              />
+              <Form.Check
+                value="1-2 years"
+                type="radio"
+                aria-label="radio Related Experience 2"
+                label=" 1-2 years"
+                onChange={handleChange}
+                className="checkJobForm"
+
+              />
+              <Form.Check
+                value="3-5 years"
+                type="radio"
+                aria-label="radio Related Experience 3"
+                label=" 3-5 years"
+                onChange={handleChange}
+                className="checkJobForm"
+
+              />
+              <Form.Check
+                value="+6 years"
+                type="radio"
+                aria-label="radio Related Experience 3"
+                label=" +6 years"
+                onChange={handleChange}
+                className="checkJobForm"
+
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formSalPret">
