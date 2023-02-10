@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
 import Modal from 'react-bootstrap/Modal';
 import { VideoRecordie } from 'react-video-recordie';
+import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 function JobForm() {
 
   const [provincias, setProvincias] = useState([])
@@ -13,32 +14,52 @@ function JobForm() {
   const [distritosDisabled, setDistritoDisabled] = useState(true)
   const [loading, setLoading] = useState(false)
   const [show, setShow] = useState(false);
+  const [audio, setAudio] = useState()
+  const [validated, setValidated] = useState(false);
+  const recorderControls = useAudioRecorder()
+  const addAudioElement = (blob) => {
+    const url = URL.createObjectURL(blob);
+    const audio = document.createElement("audio");
+    audio.src = url;
+    audio.controls = true;
+    setAudio(audio)
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const getCantones  = (provincia) => {
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
+
+  const getCantones = (provincia) => {
     axiosClient.get(`/cantones/${provincia}`)
-        .then(({data}) => {
-          setLoading(false)
-          setCantones(data)
-          setCantonesDisabled(false)
-        })
-        .catch(() => {
-          setLoading(false)
-        })
+      .then(({ data }) => {
+        setLoading(false)
+        setCantones(data)
+        setCantonesDisabled(false)
+      })
+      .catch(() => {
+        setLoading(false)
+      })
   }
 
-  const getDistrito  = (canton) => {
+  const getDistrito = (canton) => {
     axiosClient.get(`/distritos/${canton}`)
-        .then(({data}) => {
-          setLoading(false)
-          setDistritos(data)
-          setDistritoDisabled(false)
-        })
-        .catch(() => {
-          setLoading(false)
-        })
+      .then(({ data }) => {
+        setLoading(false)
+        setDistritos(data)
+        setDistritoDisabled(false)
+      })
+      .catch(() => {
+        setLoading(false)
+      })
   }
 
 
@@ -63,11 +84,12 @@ function JobForm() {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-       
+
       </Modal.Footer>
-    </Modal><div className="job-form animated fadeInDown">
+    </Modal>
+      <div className="job-form animated fadeInDown">
         <div className="form">
-          <Form>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formFullName">
               <Form.Label>Name</Form.Label>
               <Form.Control type="text" placeholder="Enter your name" />
@@ -104,7 +126,7 @@ function JobForm() {
               <Form.Label>Province</Form.Label>
               <Form.Control as="select" onChange={e => {
                 getCantones(e.target.value);
-              } }>
+              }}>
                 <option>Open this select menu</option>
                 {provincias.map((option) => {
                   return (
@@ -120,7 +142,7 @@ function JobForm() {
               <Form.Label>Canton</Form.Label>
               <Form.Control as="select" onChange={e => {
                 getDistrito(e.target.value);
-              } } disabled={cantonesDisabled}>
+              }} disabled={cantonesDisabled}>
                 <option>Open this select menu</option>
                 {cantones.map((option) => {
                   return (
@@ -148,7 +170,9 @@ function JobForm() {
 
             <Form.Group className="mb-3" controlId="formAddress">
               <Form.Label>Address</Form.Label>
-              <Form.Control type="text" placeholder="Address:" />
+              <Form.Control as="textarea"
+          placeholder=""
+          style={{ height: '100px' }} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formPhoto">
@@ -165,7 +189,12 @@ function JobForm() {
 
             <Form.Group className="mb-3" controlId="formAudio">
               <Form.Label>Audio</Form.Label>
-              <Form.Control type="audio" placeholder="Upload an audio about yourself" />
+              <AudioRecorder 
+        onRecordingComplete={(blob) => addAudioElement(blob)}
+        recorderControls={recorderControls}
+      />
+      <br></br>
+      <Button variant="primary" type='button' onClick={recorderControls.stopRecording}>Stop recording</Button>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formEngOral">
@@ -218,7 +247,12 @@ function JobForm() {
               <Form.Control type="password" placeholder="Password" />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
+              <Form.Check
+                required
+                label="Agree to terms and conditions"
+                feedback="You must agree before submitting."
+                feedbackType="invalid"
+              />
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
@@ -227,7 +261,7 @@ function JobForm() {
         </div>
 
       </div></>
-    
+
   );
 }
 
