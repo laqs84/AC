@@ -272,6 +272,20 @@ table > tbody > tr > td {
     float: none !important;
 }
 
+.checkJobForm > label {
+    padding-left: 16px;
+    padding-top: 10px;
+    min-height: 20px;
+    font-size: .9375em;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    word-break: break-word;
+}
+
+
 @keyframes fadeInDown {
     0% {
         opacity: 0;

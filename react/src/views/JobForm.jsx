@@ -95,7 +95,7 @@ function JobForm() {
         setLoading(false)
       })
   }, [])
-  
+
   return (
     <><Modal fullscreen show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -119,7 +119,7 @@ function JobForm() {
 
             <Form.Group className="mb-3" controlId="formID">
               <Form.Label>ID</Form.Label>
-              <Form.Control type="text"  />
+              <Form.Control type="text" />
             </Form.Group>
 
 
@@ -356,7 +356,7 @@ function JobForm() {
                 label=" Medium"
                 onChange={handleChange}
                 className="checkJobForm"
-                
+
               />
               <Form.Check
                 value="High"
@@ -365,7 +365,7 @@ function JobForm() {
                 label=" High"
                 onChange={handleChange}
                 className="checkJobForm"
-                
+
               />
             </Form.Group>
 
@@ -378,7 +378,48 @@ function JobForm() {
 
             <Form.Group className="mb-3" controlId="formPrevExp">
               <Form.Label>Previous Experience</Form.Label>
-              <Form.Control type="text" placeholder="Tell us about your previous experience" />
+              <Form.Check
+                label="Customer Service"
+                name="experience"
+                type="checkbox"
+                id="Experience-1"
+                className="checkJobForm"
+              />
+              <Form.Check
+                label="Tech Support"
+                name="experience"
+                type="checkbox"
+                id="Experience-2"
+                className="checkJobForm"
+              />
+              <Form.Check
+                label="Quality Asurance"
+                name="experience"
+                type="checkbox"
+                id="Experience-3"
+                className="checkJobForm"
+              />
+              <Form.Check
+                label="Sales"
+                name="experience"
+                type="checkbox"
+                id="Experience-4"
+                className="checkJobForm"
+              />
+              <Form.Check
+                label="Back Office tasks"
+                name="experience"
+                type="checkbox"
+                id="Experience-5"
+                className="checkJobForm"
+              />
+              <Form.Check
+                label="None"
+                name="experience"
+                type="checkbox"
+                id="Experience-6"
+                className="checkJobForm"
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formPosition">
@@ -395,17 +436,13 @@ function JobForm() {
               <Form.Label>Salary Pretension</Form.Label>
               <Form.Control type="text" placeholder="What is your salary pretension?" />
             </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check
                 required
                 label="Agree to terms and conditions"
                 feedback="You must agree before submitting."
                 feedbackType="invalid"
+                className="checkJobForm"
               />
             </Form.Group>
             <Button variant="primary" type="submit">
