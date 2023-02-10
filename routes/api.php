@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\JobFormController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::apiResource('/localjobform', JobFormController::class);
+Route::get('/cantones/{provincia}', [JobFormController::class, 'getCanton']);
+Route::get('/distritos/{canton}', [JobFormController::class, 'getDistrito']);

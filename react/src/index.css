@@ -20,7 +20,7 @@ body {
     background-color: #f6f6f6;
 }
 
-input {
+input, select {
     outline: 0;
     background: #ffffff;
     width: 100%;
@@ -32,7 +32,7 @@ input {
     transition: all 0.3s;
 }
 
-input:focus {
+input:focus, select:focus {
     border-color: #5b08a7;
 }
 
@@ -213,6 +213,43 @@ table > tbody > tr > td {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+
+/* Job form*/
+
+.job-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.job-form .form {
+    width: 560px;
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    padding: 34px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.job-form .title {
+    font-size: 20px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.job-form .form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 16px;
+    text-align: center;
+}
+
+.job-form .form .message a {
+    color: #5b08a7;
+    text-decoration: none;
 }
 
 #defaultLayout main {

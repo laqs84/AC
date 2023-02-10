@@ -1,25 +1,72 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useEffect, useState } from "react";
+import axiosClient from "../axios-client.js";
+
 
 function JobForm() {
+
+  const [provincias, setProvincias] = useState([])
+  const [cantones, setCantones] = useState([])
+  const [distritos, setDistritos] = useState([])
+  const [cantonesDisabled, setCantonesDisabled] = useState(true)
+  const [distritosDisabled, setDistritoDisabled] = useState(true)
+  const [loading, setLoading] = useState(false)
+
+  const getCantones  = (provincia) => {
+    axiosClient.get(`/cantones/${provincia}`)
+        .then(({data}) => {
+          setLoading(false)
+          setCantones(data)
+          setCantonesDisabled(false)
+        })
+        .catch(() => {
+          setLoading(false)
+        })
+  }
+
+  const getDistrito  = (canton) => {
+    axiosClient.get(`/distritos/${canton}`)
+        .then(({data}) => {
+          setLoading(false)
+          setDistritos(data)
+          setDistritoDisabled(false)
+        })
+        .catch(() => {
+          setLoading(false)
+        })
+  }
+
+
+  useEffect(() => {
+    setLoading(true)
+    axiosClient.get(`/localjobform`)
+      .then(({ data }) => {
+        setLoading(false)
+        setProvincias(data)
+      })
+      .catch(() => {
+        setLoading(false)
+      })
+  }, [])
   return (
-    <div className="login-signup-form animated fadeInDown">
+    <div className="job-form animated fadeInDown">
       <div className="form">
         <Form>
-        <Form.Group className="mb-3" controlId="formFullName">
+          <Form.Group className="mb-3" controlId="formFullName">
             <Form.Label>Name</Form.Label>
             <Form.Control type="text" placeholder="Enter your name" />
-        </Form.Group>
+          </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formGender">
+          <Form.Group className="mb-3" controlId="formGender">
             <Form.Label>Gender</Form.Label>
             <Form.Control type="text" placeholder="Gender:" />
-        </Form.Group>
+          </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formMarStatus">
+          <Form.Group className="mb-3" controlId="formMarStatus">
             <Form.Label>Marital Status</Form.Label>
             <Form.Control type="text" placeholder="Marital Status:" />
-        </Form.Group>
+          </Form.Group>
 
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -40,17 +87,48 @@ function JobForm() {
 
           <Form.Group className="mb-3" controlId="formProvince">
             <Form.Label>Province</Form.Label>
-            <Form.Control type="text" placeholder="Province:" />
+            <Form.Control as="select" onChange={e => {
+             getCantones(e.target.value);
+          }}>
+              <option>Open this select menu</option>
+              {provincias.map((option) => {
+                return (
+                  <option key={option.codigo_provincia} value={option.codigo_provincia}>
+                    {option.nombre_provincia}
+                  </option>
+                );
+              })}
+            </Form.Control>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formCanton">
             <Form.Label>Canton</Form.Label>
-            <Form.Control type="text" placeholder="Canton:" />
+            <Form.Control as="select" onChange={e => {
+             getDistrito(e.target.value);
+          }} disabled={cantonesDisabled}>
+              <option>Open this select menu</option>
+              {cantones.map((option) => {
+                return (
+                  <option key={option.codigo_canton} value={option.codigo_canton}>
+                    {option.nombre_canton}
+                  </option>
+                );
+              })}
+            </Form.Control>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formCanton">
-            <Form.Label>Canton</Form.Label>
-            <Form.Control type="text" placeholder="Canton:" />
+            <Form.Label>Distrito</Form.Label>
+            <Form.Control as="select" disabled={distritosDisabled}>
+              <option>Open this select menu</option>
+              {distritos.map((option) => {
+                return (
+                  <option key={option.codigo_distrito} value={option.codigo_distrito}>
+                    {option.nombre_distrito}
+                  </option>
+                );
+              })}
+            </Form.Control>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formAddress">
