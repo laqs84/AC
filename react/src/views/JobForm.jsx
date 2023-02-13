@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import { VideoRecordie } from 'react-video-recordie';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import DatePicker from "react-datepicker";
-
+import Webcam from 'react-webcam'
 import "react-datepicker/dist/react-datepicker.css";
 function JobForm() {
 
@@ -17,15 +17,21 @@ function JobForm() {
   const [distritosDisabled, setDistritoDisabled] = useState(true)
   const [loading, setLoading] = useState(false)
   const [show, setShow] = useState(false);
+  const [showPic, setShowPic] = useState(false);
   const [audio, setAudio] = useState()
   const [validated, setValidated] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [email, setEmail] = useState('');
   const [errorEmail, setErrorEmail] = useState(null);
+  const videoConstraints = {
+    facingMode: "user"
+  };
 
   const [item, setItem] = useState({ oralLevel: "", another: "another" });
 
   const { oralLevel } = item;
+
+  
 
   const handleChange = e => {
     e.persist();
@@ -64,6 +70,10 @@ function JobForm() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+
+  const handleClosePic = () => setShowPic(false);
+  const handleShowPic = () => setShowPic(true);
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -128,6 +138,40 @@ function JobForm() {
 
       </Modal.Footer>
     </Modal>
+
+    <Modal fullscreen show={showPic} onHide={handleClosePic}>
+      <Modal.Header closeButton>
+        <Modal.Title>Modal heading</Modal.Title>
+      </Modal.Header>
+      <Modal.Body> 
+      <Webcam
+    audio={false}
+    height={720}
+    screenshotFormat="image/jpeg"
+    width={1280}
+    videoConstraints={videoConstraints}
+  >
+    {({ getScreenshot }) => (
+      <Button
+        onClick={() => {
+          const imageSrc = getScreenshot()
+        }}
+      >
+        Capture photo
+      </Button>
+    )}
+  </Webcam>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClosePic}>
+          Close
+        </Button>
+
+      </Modal.Footer>
+    </Modal>
+    
+
+
       <div className="job-form animated fadeInDown">
         <div className="form">
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -240,7 +284,9 @@ function JobForm() {
 
             <Form.Group className="mb-3" controlId="formPhoto">
               <Form.Label>Photo</Form.Label>
-              <Form.Control type="photo" placeholder="Upload a photo of yourself" />
+              <Button variant="primary" onClick={handleShowPic}>
+              Take a photo of yourself
+              </Button>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formVideo">
