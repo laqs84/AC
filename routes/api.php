@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        return $request->user(); 
     });
 
     Route::apiResource('/users', UserController::class);
@@ -31,3 +31,4 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::apiResource('/localjobform', JobFormController::class);
 Route::get('/cantones/{provincia}', [JobFormController::class, 'getCanton']);
 Route::get('/distritos/{canton}', [JobFormController::class, 'getDistrito']);
+Route::post('/users/create', [JobFormController::class, 'store']); 
