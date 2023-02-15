@@ -31,4 +31,4 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::apiResource('/localjobform', JobFormController::class);
 Route::get('/cantones/{provincia}', [JobFormController::class, 'getCanton']);
 Route::get('/distritos/{canton}', [JobFormController::class, 'getDistrito']);
-Route::post('/users/create', [JobFormController::class, 'store']); 
+Route::post('/jobforms/apply', [JobFormController::class, 'store']); 

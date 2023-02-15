@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\JobApplication;
 class JobFormController extends Controller
 {
     
@@ -29,13 +31,13 @@ class JobFormController extends Controller
         return $distritos;
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(Request $request)
     {
         $data = $request->validated();
-        $data['password'] = bcrypt($data['password']);
-        $user = User::create($data);
+        var_dump($request);
+        $jobApplication = JobApplication::create($data);
 
-        return response(new UserResource($user) , 201);
+        return response(new UserResource($jobApplication) , 201);
     }
 
     public function show(User $user)
