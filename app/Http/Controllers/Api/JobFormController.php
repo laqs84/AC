@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\JobApplicationRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\JobApplication;
 class JobFormController extends Controller
@@ -31,11 +32,11 @@ class JobFormController extends Controller
         return $distritos;
     }
 
-    public function store(Request $request)
+    public function store(JobApplicationRequest $request)
     {
         $data = $request->validated();
-        var_dump($request);
-        $jobApplication = JobApplication::create($data);
+        var_dump($data);
+        //$jobApplication = JobApplication::create($data);
 
         return response(new UserResource($jobApplication) , 201);
     }
